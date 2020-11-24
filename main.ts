@@ -12,6 +12,7 @@ import { DemoMaterialModule } from "./material-module";
 import { TreeChecklistExample } from "./app/tree-checklist-example";
 import { TreeComponent } from "./tree/tree.component";
 import { PojoDisplayComponent } from "./app/pojo-display.component";
+import { TreeDataService } from "./app/tree-data.service";
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import { PojoDisplayComponent } from "./app/pojo-display.component";
   entryComponents: [TreeChecklistExample, TreeComponent, PojoDisplayComponent],
   declarations: [TreeChecklistExample, TreeComponent, PojoDisplayComponent],
   bootstrap: [TreeChecklistExample],
-  providers: []
+  providers: [TreeDataService]
 })
 export class AppModule {}
 

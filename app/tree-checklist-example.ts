@@ -30,18 +30,22 @@ const treeData = {
   color: "black",
   properties: [
     {
-      id: "a",
-      packageName: "value",
-      color: "black"
+      id: "merchantName",
+      color: "black",
+      varName: "merchantName",
+      dataType: "String",
+      primitiveType: true
     },
     {
       id: "b",
       color: "black",
       properties: [
         {
-          id: "X",
+          id: "merchantinfo",
           color: "black",
-          packageName: "value"
+          varName: "merchantName",
+          dataType: "String",
+          primitiveType: true
         }
       ]
     }
@@ -217,7 +221,6 @@ export class TreeChecklistExample {
 
     //to code amx
 
-
     this.dataTree = TREE_DATA;
 
     let left = this.dataTree;
@@ -234,11 +237,6 @@ export class TreeChecklistExample {
     this.diffVal(left, config, right, config2);
     this.diffColor(this.diffs);
     console.log(this.diffs);
-
-
-
-
-    
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
