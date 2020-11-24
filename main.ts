@@ -1,15 +1,17 @@
-import './polyfills';
+import "./polyfills";
 
-import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material';
-import {BrowserModule} from '@angular/platform-browser';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DemoMaterialModule} from './material-module';
+import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatNativeDateModule } from "@angular/material";
+import { BrowserModule } from "@angular/platform-browser";
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { DemoMaterialModule } from "./material-module";
 
-import {TreeChecklistExample} from './app/tree-checklist-example';
+import { TreeChecklistExample } from "./app/tree-checklist-example";
+import { TreeComponent } from "./tree/tree.component";
+import { PojoDisplayComponent } from "./app/pojo-display.component";
 
 @NgModule({
   imports: [
@@ -19,17 +21,16 @@ import {TreeChecklistExample} from './app/tree-checklist-example';
     HttpClientModule,
     DemoMaterialModule,
     MatNativeDateModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
-  entryComponents: [TreeChecklistExample],
-  declarations: [TreeChecklistExample],
+  entryComponents: [TreeChecklistExample, TreeComponent, PojoDisplayComponent],
+  declarations: [TreeChecklistExample, TreeComponent, PojoDisplayComponent],
   bootstrap: [TreeChecklistExample],
   providers: []
 })
 export class AppModule {}
 
 platformBrowserDynamic().bootstrapModule(AppModule);
-
 
 /**  Copyright 2018 Google Inc. All Rights Reserved.
     Use of this source code is governed by an MIT-style license that

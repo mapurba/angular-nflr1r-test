@@ -11,7 +11,7 @@ import { BehaviorSubject } from "rxjs";
  * Node for to-do item
  */
 export class TodoItemNode {
-  children: TodoItemNode[];
+  properties: TodoItemNode[];
   item: string;
   color: string;
   propName: string;
@@ -25,6 +25,28 @@ enum Colors {
   BLACK = "BLACK"
 }
 
+const treeData = {
+  id: "1",
+  color: "black",
+  properties: [
+    {
+      id: "a",
+      packageName: "value",
+      color: "black"
+    },
+    {
+      id: "b",
+      color: "black",
+      properties: [
+        {
+          id: "X",
+          color: "black",
+          packageName: "value"
+        }
+      ]
+    }
+  ]
+};
 /** Flat to-do item node with expandable and level information */
 export class TodoItemFlatNode {
   item: string;
@@ -38,62 +60,17 @@ export class TodoItemFlatNode {
 /**
  * The Json object for to-do list data.
  */
-const TREE_DATA = {
-  vsgName: "test-object-complex",
-  domainId: 3,
-  variableBusinessGroupVersions: [
-    {
-      domainId: 3,
-      locked: false,
-      variableSetList: [
-        {
-          varSetName: "MerchantInfo",
-          packageName: "com.company.children",
-          referenceName: "merchantInfo",
-          variableVersions: [
-            {
-              varName: "merchantName",
-              dataType: "String",
-              primitiveType: true
-            }
-          ]
-        }
-      ]
-    }
-  ]
-};
+const TREE_DATA = treeData;
 
 /**
  * The Json object for to-do list data.
  */
-const TREE_DATAV1 = {
-  vsgName: "test-object-complexx",
-  domainId: 3,
-  variableBusinessGroupVersions: [
-    {
-      domainId: 3,
-      locked: true,
-      variableSetList: [
-        {
-          packageName: "com.company.children",
-          referenceName: "merchantInfo",
-          variableVersions: [
-            {
-              varName: "merchantName",
-              dataType: "String",
-              primitiveType: true
-            }
-          ]
-        }
-      ]
-    }
-  ]
-};
+const TREE_DATAV1 = treeData;
 
 /**
  * Checklist database, it can build a tree structured Json object.
  * Each node in Json object represents a to-do item or a category.
- * If a node is a category, it has children items and new items can be added under the category.
+ * If a node is a category, it has properties items and new items can be added under the category.
  */
 @Injectable()
 export class ChecklistDatabase {
@@ -109,7 +86,7 @@ export class ChecklistDatabase {
 
   initialize() {
     // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-    //     file node as children.
+    //     file node as properties.
     const data = this.buildFileTree(TREE_DATA, 0);
     // console.log(data);
 
@@ -135,7 +112,11 @@ export class ChecklistDatabase {
 
       if (value != null) {
         if (typeof value === "object") {
-          node.children = this.buildFileTree(value, level + 1, node.path + "/");
+          node.properties = this.buildFileTree(
+            value,
+            level + 1,
+            node.path + "/"
+          );
         } else {
           node.item = value;
           node.propName = key;
@@ -148,8 +129,8 @@ export class ChecklistDatabase {
 
   /** Add an item to to-do list */
   insertItem(parent: TodoItemNode, name: string) {
-    if (parent.children) {
-      parent.children.push({ item: name } as TodoItemNode);
+    if (parent.properties) {
+      parent.properties.push({ item: name } as TodoItemNode);
       this.dataChange.next(this.data);
     }
   }
@@ -218,7 +199,7 @@ export class TreeChecklistExample {
       this.transformer,
       this.getLevel,
       this.isExpandable,
-      this.getChildren
+      this.getproperties
     );
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(
       this.getLevel,
@@ -231,10 +212,11 @@ export class TreeChecklistExample {
 
     database.dataChange.subscribe(data => {
       this.dataSource.data = data;
-      console.log(this.dataSource.data);
+      // console.log(this.dataSource.data);
     });
 
     //to code amx
+
 
     this.dataTree = TREE_DATA;
 
@@ -252,13 +234,18 @@ export class TreeChecklistExample {
     this.diffVal(left, config, right, config2);
     this.diffColor(this.diffs);
     console.log(this.diffs);
+
+
+
+
+    
   }
 
   getLevel = (node: TodoItemFlatNode) => node.level;
 
   isExpandable = (node: TodoItemFlatNode) => node.expandable;
 
-  getChildren = (node: TodoItemNode): TodoItemNode[] => node.children;
+  getproperties = (node: TodoItemNode): TodoItemNode[] => node.properties;
 
   getColor = (node: TodoItemNode) => node.color;
 
@@ -282,7 +269,7 @@ export class TreeChecklistExample {
     flatNode.color = node.color;
     flatNode.propName = node.propName;
     flatNode.level = level;
-    flatNode.expandable = !!node.children;
+    flatNode.expandable = !!node.properties;
     this.flatNodeMap.set(flatNode, node);
     this.nestedNodeMap.set(node, flatNode);
     return flatNode;

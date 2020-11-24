@@ -1,0 +1,68 @@
+.field-name {
+  color: blue;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.field-name.bolder {
+  text-shadow: 1px 0 0 blue;
+}
+.field-name.bolder .data-type {
+  text-shadow: 1px 0 0 blue;
+}
+.open-icon {
+  margin-right: 5px;
+}
+.pojo-fields-container {
+  margin-left: 50px;
+  padding-left: 10px;
+}
+.checkContainer {
+  position: relative;
+  padding-left: 10px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 9px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  padding-right: 5px;
+}
+.checkContainer input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark {
+  position: absolute;
+  top: -11px;
+  left: 0;
+  height: 13px;
+  width: 12px;
+  background-color: #fff;
+  border: 1px solid #58595b;
+  border-radius: 2px;
+}
+.checkContainer input:checked ~ .checkmark {
+  background-color: #009bbb;
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.checkContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+.checkContainer .checkmark:after {
+  left: 2px;
+  top: 0px;
+  width: 5px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
