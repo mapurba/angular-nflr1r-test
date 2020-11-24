@@ -1,0 +1,18 @@
+<div id="{{path + field + 'Accordion'}}" class="objectsName">
+  <label class="derivation-workflow-label checkContainer" *ngIf="enableSelection">
+    <input type="checkbox" [checked]="details.selected" (change)="fieldSelected($event)">
+    <span class="checkmark"></span>
+  </label>
+  <span *ngIf="!nested" class="fa fa-caret-square-o-down open-icon cursor-pointer" aria-hidden="true" pTooltip="Expand All" (click)="expandAll()"></span>
+  <div class="display-inline">
+    <span *ngIf="hasFields" class="fa open-icon cursor-pointer" aria-hidden="true" [ngClass]="expand ? 'fa-minus-square-o':'fa-plus-square'"
+          data-toggle="collapse"  [attr.href]="'#' + path + field" ng-show="isLink" (click)="hasFields && (expand = !expand)"></span>
+    <span *ngIf="!hasFields" class="fa fa-circle-o open-icon" aria-hidden="true"></span>
+    <p [ngClass]="[hasFields ? 'cursor-pointer' : '',expand ? 'bolder' : '']" class="field-name display-inline">
+      {{field}}: <span class="data-type">{{getType()}} {{getPackageName()}}</span>
+    </p>
+  </div>
+  <div id="{{path + field}}" class="panel-collapse collapse pojo-fields-container" *ngIf="expand && hasFields">
+    <app-pojo-display *ngFor="let prop of getSubProperties()" [details]="prop" [path]="path + field" [nested]="true" [enableSelection]="enableSelection"></app-pojo-display>
+  </div>
+</div>
